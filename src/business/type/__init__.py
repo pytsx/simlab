@@ -3,7 +3,7 @@ from src.business.type.email import Email
 from src.business.type.id import ID
 from src.business.type.money import Money
 from src.business.type.name import Name
-from business.type.phone_number import PhoneNumber
+from src.business.type.phone_number import PhoneNumber
 
 __all__ = [
     "Document",
