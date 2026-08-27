@@ -1,14 +1,14 @@
 from dataclasses import dataclass 
 
-from src.business.customer import CustomerBus
-from src.business.transaction import TransactionBus
-from src.business.product import ProductBus
+from src.business.domain import customer, transaction, product
+from src.business.type import document 
+
 
 @dataclass
 class BusConfig:
-  customer_bus: CustomerBus
-  transactions_bus: TransactionBus
-  products_bus: ProductBus
+  customer_bus: customer.CustomerBus
+  transaction_bus: transaction.TransactionBus
+  product_bus: product.ProductBus
 
 @dataclass
 class AppConfig: 
@@ -18,4 +18,9 @@ class App:
   def __init__(self, cfg: AppConfig):
     self._cfg = cfg
 
-__all__ = ["App", "AppConfig"]
+  def get_cutomer(self, doc: str):
+    return self._cfg.bus.customer_bus.get(
+      document.Document(doc, document.DocumentType.CNPJ)
+    )
+
+__all__ = ["App", "AppConfig", "BusConfig"]
