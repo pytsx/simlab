@@ -1,7 +1,7 @@
 from dataclasses import dataclass 
 
 from src.business.domain import customer, transaction, product
-from src.business.type import document 
+from src.business.type import Document, DocumentType
 
 
 @dataclass
@@ -20,7 +20,7 @@ class App:
 
   def get_cutomer(self, doc: str):
     return self._cfg.bus.customer_bus.get(
-      document.Document(doc, document.DocumentType.CNPJ)
+      Document(doc, DocumentType.CNPJ)
     )
 
 __all__ = ["App", "AppConfig", "BusConfig"]

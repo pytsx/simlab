@@ -1,6 +1,8 @@
 import duckdb
 import pandas as pd 
 
+from src.business.type import Document
+
 class CustomerDuckStore:
   def __init__(self, db: duckdb.DuckDBPyConnection):
     self._db = db
@@ -10,7 +12,7 @@ class CustomerDuckStore:
     self._db.execute(query)
     return self._db.fetchdf()
 
-  def get(self, document: int) -> pd.DataFrame:
+  def get(self, document: Document) -> pd.DataFrame:
     # Implement logic to retrieve a specific customer by ID
     query = f"SELECT * FROM customers WHERE id = {document}"
     return self.query(query)
