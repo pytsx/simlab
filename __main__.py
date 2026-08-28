@@ -1,4 +1,4 @@
-from bootstrap import app
+from src.bootstrap import app
 from cli import cli
 
 from src.infra.pipeline import pipeline
