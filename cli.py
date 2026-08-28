@@ -2,7 +2,7 @@ import argparse
 
 from typing import Callable
 
-def cli(cmds: dict[str, Callable]):
+def cli(cmds: dict[str, Callable[[], None]]) -> None:
   parser = argparse.ArgumentParser()
   parser.add_argument(
     "command",
@@ -14,5 +14,5 @@ def cli(cmds: dict[str, Callable]):
   
   command = cmds[args.command]
   
-  if command:
+  if command is not None:
     command()

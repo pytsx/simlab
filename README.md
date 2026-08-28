@@ -32,16 +32,16 @@ The pipeline is responsible for reading data from external sources, validating i
 
 ```text
 Tableau / Databricks
-        ↓
-      Reader
-        ↓
-   Pipeline Step
-        ↓
-     Validate
-        ↓
+      ↓
+    Reader
+      ↓
+  Pipeline Step
+      ↓
+    Validate
+      ↓
 Replacer / Appender
-        ↓
-      DuckDB
+      ↓
+    DuckDB
 ```
 
 The pipeline does not depend on the business or application layers.
