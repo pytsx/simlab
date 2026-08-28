@@ -13,15 +13,13 @@ from src.service.oportunity import OportunityService
 import duckdb
 
 def app():
-  customer_db = duckdb.connect(database=':memory:')
-  transaction_db = duckdb.connect(database=':memory:')
-  product_db = duckdb.connect(database=':memory:')
+  db = duckdb.connect("simlab.duckdb")
   
   app_cfg = AppConfig(
     bus=BusConfig(
-      customer_bus= CustomerBus(CustomerDuckStore(customer_db)),
-      transaction_bus= TransactionBus(TransactionDuckStore(transaction_db)),
-      product_bus= ProductBus(ProductDuckStore(product_db)),
+      customer_bus= CustomerBus(CustomerDuckStore(db)),
+      transaction_bus= TransactionBus(TransactionDuckStore(db)),
+      product_bus= ProductBus(ProductDuckStore(db)),
     )
   )
   app = App(app_cfg)
