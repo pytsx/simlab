@@ -1,12 +1,4 @@
-from enum import Enum
 import pandas as pd
-
-class TableauResourceType(Enum):
-    WORKBOOK = "workbook"
-    DATASOURCE = "datasource"
-    PROJECT = "project"
-    SITE = "site"
-    USER = "user"
 
 class _WorkbookProvider:
     def read(self, resource_id: str) -> pd.DataFrame:

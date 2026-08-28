@@ -4,8 +4,6 @@ from src.infra.providers.tableau import TableauProvider
 from src.infra.pipeline.runner import runner
 from src.infra.pipeline.steps import SourceReplacer
 
-
-
 def pipeline():
   tableau = TableauProvider(
     config={}
@@ -13,7 +11,7 @@ def pipeline():
 
   duckdb = DuckDBProvider(
     cfg=DuckDBProvider.Config(
-      database="my_database.duckdb"
+      database="simlab.duckdb"
     )
   )
   
@@ -26,3 +24,4 @@ def pipeline():
       schema={"column1": "string", "column2": "int"}
     )
   )
+  
