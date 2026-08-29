@@ -1,0 +1,1 @@
+`pkg` nunca importa `src`
