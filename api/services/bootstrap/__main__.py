@@ -8,7 +8,7 @@ from src.store.product import ProductDuckStore
 
 from src.app import App, AppConfig, BusConfig
 
-from app.oportunity import OportunityApp
+from src.app.oportunity import OportunityApp
 
 import duckdb
 

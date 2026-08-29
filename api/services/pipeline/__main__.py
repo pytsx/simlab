@@ -4,13 +4,13 @@ import os
 from src.infra.providers.duckdb import DuckDBProvider
 from src.infra.providers.tableau import TableauProvider, TableauConfig
 
-from src.infra.pipeline.steps import SourceReplacer
+from pkg.pipeline import SourceReplacer
 
 dotenv.load_dotenv()
 
 from pkg.runtime import Chain
 
-def pipeline():
+def main():
   tableau = TableauProvider(
     config=TableauConfig(
       server_address=os.getenv("TABLEAU_SERVER_ADDRESS", ''),
@@ -51,4 +51,5 @@ def pipeline():
     final=lambda _: print("Pipeline completed successfully.")
   )
 
-  
+if __name__ == "__main__":
+  main()

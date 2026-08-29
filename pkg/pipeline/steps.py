@@ -1,7 +1,7 @@
 import pandas as pd 
 from typing import Dict, Protocol
 
-from src.infra.pipeline.validate import validate
+from pkg.pipeline.validate import validate
 
 class Reader(Protocol):
   def read(self, resource_id: str) -> pd.DataFrame:...
