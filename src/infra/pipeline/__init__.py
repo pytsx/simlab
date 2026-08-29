@@ -4,10 +4,11 @@ import os
 from src.infra.providers.duckdb import DuckDBProvider
 from src.infra.providers.tableau import TableauProvider, TableauConfig
 
-from src.infra.pipeline.runner import runner
 from src.infra.pipeline.steps import SourceReplacer
 
 dotenv.load_dotenv()
+
+from pkg.runtime import Chain
 
 def pipeline():
   tableau = TableauProvider(
@@ -29,8 +30,8 @@ def pipeline():
     )
   )
   
-  runner(
-    SourceReplacer(
+  Chain(
+    lambda _: SourceReplacer(
       source=tableau.datasource(),
       resource="f42183d8-63a6-4580-826f-82ec91703529",
       target=duckdb,
@@ -43,9 +44,11 @@ def pipeline():
         "TIP_TRN":    "string",
         "UF":         "string",
         "QTD_TRN":    "integer",
-        "VLR_TRN":    "double",
-        "VLR_DSC":    "double",
+        "VLR_TRN":    "float",
+        "VLR_DSC":    "float",
       }
-    )
+    ).run(),
+    final=lambda _: print("Pipeline completed successfully.")
   )
+
   

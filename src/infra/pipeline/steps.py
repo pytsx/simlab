@@ -31,6 +31,7 @@ class BasicStep[R: Replacer | Appender]:
   
   def get_resource(self) -> pd.DataFrame:
     df = self.source.read(self.resource)
+    print(df.head())
     validate(df, self.schema)
     return df 
     

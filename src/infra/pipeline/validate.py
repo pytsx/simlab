@@ -10,10 +10,11 @@ from pandas.api.types import (
 
 TYPE_VALIDATORS = {
   "string": is_string_dtype,
-  "int": is_integer_dtype,
+  "integer": is_integer_dtype,
   "float": is_float_dtype,
   "bool": is_bool_dtype,
   "datetime": is_datetime64_any_dtype,
+  "date": is_datetime64_any_dtype,
 }
 
 
