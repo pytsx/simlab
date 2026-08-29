@@ -1,12 +1,26 @@
+import dotenv
+import os
+
 from src.infra.providers.duckdb import DuckDBProvider
-from src.infra.providers.tableau import TableauProvider
+from src.infra.providers.tableau import TableauProvider, TableauConfig
 
 from src.infra.pipeline.runner import runner
 from src.infra.pipeline.steps import SourceReplacer
 
+dotenv.load_dotenv()
+
 def pipeline():
   tableau = TableauProvider(
-    config={}
+    config=TableauConfig(
+      server_address=os.getenv("TABLEAU_SERVER_ADDRESS", ''),
+      use_server_version=os.getenv("TABLEAU_USE_SERVER_VERSION", "True").lower() == "true",
+      http_options={
+        "timeout": int(os.getenv("TABLEAU_HTTP_TIMEOUT", "1200"))
+      },
+      token_name=os.getenv("TABLEAU_TOKEN_NAME", ''),
+      access_token=os.getenv("TABLEAU_ACCESS_TOKEN", ''),
+      site_id=os.getenv("TABLEAU_SITE_ID", '')
+    )
   )
 
   duckdb = DuckDBProvider(
@@ -18,10 +32,20 @@ def pipeline():
   runner(
     SourceReplacer(
       source=tableau.datasource(),
-      resource="datasource_id",
+      resource="f42183d8-63a6-4580-826f-82ec91703529",
       target=duckdb,
-      table="table_name",
-      schema={"column1": "string", "column2": "int"}
+      table="fattrnadq",
+      schema={
+        "BANDEIRA":   "string", 
+        "CNPJ":       "string",
+        "DAT_TRN":    "date",
+        "PORTE":      "string",
+        "TIP_TRN":    "string",
+        "UF":         "string",
+        "QTD_TRN":    "integer",
+        "VLR_TRN":    "double",
+        "VLR_DSC":    "double",
+      }
     )
   )
   

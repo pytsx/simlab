@@ -15,12 +15,14 @@ import duckdb
 def app():
   db = duckdb.connect("simlab.duckdb")
   
-  app_cfg = AppConfig(
-    bus=BusConfig(
-      customer_bus= CustomerBus(CustomerDuckStore(db)),
-      transaction_bus= TransactionBus(TransactionDuckStore(db)),
-      product_bus= ProductBus(ProductDuckStore(db)),
+  app = App(
+    cfg=AppConfig(
+      bus=BusConfig(
+        customer_bus= CustomerBus(CustomerDuckStore(db)),
+        transaction_bus= TransactionBus(TransactionDuckStore(db)),
+        product_bus= ProductBus(ProductDuckStore(db)),
+      )
     )
   )
-  app = App(app_cfg)
+
   opportunity = OportunityService(app)
