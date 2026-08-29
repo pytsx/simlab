@@ -30,10 +30,7 @@ class BasicStep[T, R]:
 
   def get_resource(self) -> T:
     resource = self.source.read(self.resource)
-    if not self.validate(resource):
-      raise ValueError(
-        f"Validation failed for resource: {self.resource}"
-      )
+    self.validate(resource)
     return resource
     
 class SourceReplacer[T](BasicStep[T, Replacer[T]]):
