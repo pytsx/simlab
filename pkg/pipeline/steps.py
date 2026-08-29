@@ -1,35 +1,45 @@
-from typing import Dict, Protocol
+from typing import Protocol
 
 class Reader[T](Protocol):
   def read(self, resource_id: str) -> T:...
 
 class Replacer[T](Protocol):   
-  def replace(self, table: str, df: T):...
+  def replace(self, path: str, resource: T):...
 
 class Appender[T](Protocol):   
-  def append(self, table: str, df: T):...
+  def append(self, path: str, resource: T):...
 
+class Validator[T](Protocol):
+  def __call__(self, resource: T) -> None: ...
+  
 class BasicStep[T, R]:
   def __init__(
     self, 
     source: Reader[T], 
     resource: str,
     target: R,
-    table: str,
+    path: str,
+    validator: Validator[T]
   ):
     self.source = source
     self.resource = resource
     
     self.target = target
-    self.table = table
-    
+    self.path = path
+    self.validate = validator
+
   def get_resource(self) -> T:
-    return self.source.read(self.resource) 
+    resource = self.source.read(self.resource)
+    if not self.validate(resource):
+      raise ValueError(
+        f"Validation failed for resource: {self.resource}"
+      )
+    return resource
     
 class SourceReplacer[T](BasicStep[T, Replacer[T]]):
   def run(self):
-    self.target.replace(self.table, self.get_resource())
+    self.target.replace(self.path, self.get_resource())
 
 class SourceAppender[T](BasicStep[T, Appender[T]]):
   def run(self):
-    self.target.append(self.table, self.get_resource())
+    self.target.append(self.path, self.get_resource())

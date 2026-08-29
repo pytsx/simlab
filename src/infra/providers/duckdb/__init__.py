@@ -20,17 +20,17 @@ class DuckDBProvider:
 
   def replace(
     self,
-    table: str,
-    df: pd.DataFrame
+    path: str,
+    resource: pd.DataFrame
   ) -> None:
     db = self.connect()
 
     try:
-      db.register("_source", df)
+      db.register("_source", resource)
 
       db.execute(
         f"""
-        CREATE OR REPLACE TABLE "{table}"
+        CREATE OR REPLACE TABLE "{path}"
         AS
         SELECT *
         FROM _source
