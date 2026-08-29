@@ -18,7 +18,7 @@ TYPE_VALIDATORS = {
 }
 
 
-def validate(
+def dataframe_schema_validator(
   df: pd.DataFrame,
   schema: dict[str, str]
 ) -> None:
