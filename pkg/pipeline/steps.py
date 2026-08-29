@@ -26,11 +26,11 @@ class BasicStep[T, R]:
     
     self.target = target
     self.path = path
-    self.validate = validator
+    self.validator = validator
 
   def get_resource(self) -> T:
     resource = self.source.read(self.resource)
-    self.validate(resource)
+    self.validator(resource)
     return resource
     
 class SourceReplacer[T](BasicStep[T, Replacer[T]]):
