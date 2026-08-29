@@ -36,17 +36,17 @@ def main():
       resource="f42183d8-63a6-4580-826f-82ec91703529",
       target=duckdb,
       table="fattrnadq",
-      schema={
-        "BANDEIRA":   "string", 
-        "CNPJ":       "string",
-        "DAT_TRN":    "date",
-        "PORTE":      "string",
-        "TIP_TRN":    "string",
-        "UF":         "string",
-        "QTD_TRN":    "integer",
-        "VLR_TRN":    "float",
-        "VLR_DSC":    "float",
-      }
+      # schema={
+      #   "BANDEIRA":   "string", 
+      #   "CNPJ":       "string",
+      #   "DAT_TRN":    "date",
+      #   "PORTE":      "string",
+      #   "TIP_TRN":    "string",
+      #   "UF":         "string",
+      #   "QTD_TRN":    "integer",
+      #   "VLR_TRN":    "float",
+      #   "VLR_DSC":    "float",
+      # }
     ).run(),
     final=lambda _: print("Pipeline completed successfully.")
   )

@@ -1,25 +1,21 @@
-import pandas as pd 
 from typing import Dict, Protocol
 
-from pkg.pipeline.validate import validate
+class Reader[T](Protocol):
+  def read(self, resource_id: str) -> T:...
 
-class Reader(Protocol):
-  def read(self, resource_id: str) -> pd.DataFrame:...
+class Replacer[T](Protocol):   
+  def replace(self, table: str, df: T):...
 
-class Replacer(Protocol):   
-  def replace(self, table: str, df: pd.DataFrame):...
+class Appender[T](Protocol):   
+  def append(self, table: str, df: T):...
 
-class Appender(Protocol):   
-  def append(self, table: str, df: pd.DataFrame):...
-
-class BasicStep[R: Replacer | Appender]:
+class BasicStep[T, R]:
   def __init__(
     self, 
-    source: Reader, 
+    source: Reader[T], 
     resource: str,
     target: R,
     table: str,
-    schema: Dict[str, str]
   ):
     self.source = source
     self.resource = resource
@@ -27,18 +23,13 @@ class BasicStep[R: Replacer | Appender]:
     self.target = target
     self.table = table
     
-    self.schema = schema
-  
-  def get_resource(self) -> pd.DataFrame:
-    df = self.source.read(self.resource)
-    print(df.head())
-    validate(df, self.schema)
-    return df 
+  def get_resource(self) -> T:
+    return self.source.read(self.resource) 
     
-class SourceReplacer(BasicStep[Replacer]):
+class SourceReplacer[T](BasicStep[T, Replacer[T]]):
   def run(self):
     self.target.replace(self.table, self.get_resource())
 
-class SourceAppender(BasicStep[Appender]):
+class SourceAppender[T](BasicStep[T, Appender[T]]):
   def run(self):
     self.target.append(self.table, self.get_resource())
